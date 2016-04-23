@@ -41,7 +41,7 @@ import static com.gmugu.happytour.comment.constant.ActivityActionName.MAIN_ACTIV
 /**
  * Created by mugu on 16-4-12 下午12:59.
  */
-public class ModifyUserInfoFragment extends Fragment implements View.OnClickListener, IModifyUserInfoView {
+public class ModifyUserInfoFragment extends BaseFragment implements View.OnClickListener, IModifyUserInfoView {
 
     private final static String ARG_USER_INFO = "userinfo";
     private final int REQUEST_CODE_CAMERA = 1;

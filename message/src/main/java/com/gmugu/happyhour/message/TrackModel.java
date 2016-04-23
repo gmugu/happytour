@@ -10,7 +10,7 @@ import java.util.List;
 public class TrackModel extends BaseModel {
 
     //用户ID
-    private String userId;
+    private Integer userId;
     //轨迹快照
     private com.gmugu.happyhour.message.TrackSnapshotsModel trackSnapshotsModel;
     //位置间隔数组
@@ -19,17 +19,17 @@ public class TrackModel extends BaseModel {
     public TrackModel() {
     }
 
-    public TrackModel(String userId, com.gmugu.happyhour.message.TrackSnapshotsModel trackSnapshotsModel, List<TrackPointModel> trackList) {
+    public TrackModel(Integer userId, com.gmugu.happyhour.message.TrackSnapshotsModel trackSnapshotsModel, List<TrackPointModel> trackList) {
         this.userId = userId;
         this.trackSnapshotsModel = trackSnapshotsModel;
         this.trackList = trackList;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

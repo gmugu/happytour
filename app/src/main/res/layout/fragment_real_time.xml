@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.gmugu.happytour.view.fragment.RealTimeFragment">
+
+    <FrameLayout
+        android:id="@+id/fragment_real_time_map_fl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/fragment_read_time_guide_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:padding="4dp">
+
+        <Button
+            android:id="@+id/fragment_read_time_create_bn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="创建旅行团" />
+
+        <Button
+            android:id="@+id/fragment_read_time_delete_bn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="解散旅行团" />
+
+        <Button
+            android:id="@+id/fragment_read_time_start_bn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="开始" />
+
+        <Button
+            android:id="@+id/fragment_read_time_stop_bn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="结束" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_read_time_passenger_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/fragment_read_time_join_bn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="加入旅行团" />
+
+        <Button
+            android:id="@+id/fragment_read_time_out_bn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="退出旅行团" />
+    </LinearLayout>
+
+</RelativeLayout>

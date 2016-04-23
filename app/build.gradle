@@ -12,7 +12,21 @@ android {
         }
 
     }
-
+    signingConfigs {
+//         your debug keystore
+        debug {
+            storeFile file("/Volumes/Extra/Development/workspace/AndroidStudioProjects/HappyTour/sign/mugu_key.jks")
+            keyAlias "mugu_key"
+            keyPassword "940614"
+            storePassword '940614'
+        }
+        release {
+            storeFile file('/Volumes/Extra/Development/workspace/AndroidStudioProjects/HappyTour/sign/mugu_key.jks')
+            keyAlias "mugu_key"
+            keyPassword "940614"
+            storePassword '940614'
+        }
+    }
     defaultConfig {
         applicationId "com.gmugu.happytour"
         minSdkVersion 15

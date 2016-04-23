@@ -50,7 +50,7 @@
         <!-- 主界面-->
         <activity android:name="com.gmugu.happytour.view.activity.MainActivity" android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="com.gmugu.paole.intent.action.MAIN_ACTIVITY_ACTION" />
+                <action android:name="com.gmugu.happytour.intent.action.MAIN_ACTIVITY_ACTION" />
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -63,7 +63,7 @@
             android:name=".view.activity.LoginActivity"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
-                <action android:name="com.gmugu.paole.intent.action.LOGIN_ACTIVITY_ACTION" />
+                <action android:name="com.gmugu.happytour.intent.action.LOGIN_ACTIVITY_ACTION" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -72,7 +72,7 @@
         <!-- 注册-->
         <activity android:name=".view.activity.RegisterActivity">
             <intent-filter>
-                <action android:name="com.gmugu.paole.intent.action.REGISTER_ACTIVITY_ACTION" />
+                <action android:name="com.gmugu.happytour.intent.action.REGISTER_ACTIVITY_ACTION" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -81,12 +81,11 @@
         <!-- 找回密码-->
         <activity android:name=".view.activity.RetrievePasswordActivity">
             <intent-filter>
-                <action android:name="com.gmugu.paole.intent.action.RETRIEVE_PASSWORD_ACTIVITY_ACTION" />
+                <action android:name="com.gmugu.happytour.intent.action.RETRIEVE_PASSWORD_ACTIVITY_ACTION" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
 
     </application>
 

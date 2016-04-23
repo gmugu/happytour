@@ -1,6 +1,7 @@
 package com.gmugu.happytour.data.api;
 
 
+import com.gmugu.happyhour.message.request.*;
 import com.gmugu.happyhour.message.result.*;
 
 import okhttp3.MultipartBody;
@@ -122,7 +123,16 @@ public interface IApiService {
      */
     @POST("uploadTrack.do")
     @Multipart
-    Call<UploadTrackResult> uploadTrack(@Part(DATA_NAME) com.gmugu.happyhour.message.request.UploadTrackRequest request);
+    Call<UploadTrackResult> uploadTrack(@Part(DATA_NAME) UploadTrackRequest request);
+
+    /**
+     * 上传当前位置
+     *
+     * @param request
+     * @return
+     */
+    @POST("uploadLocation.do")
+    Call<UploadLocationResult> uploadLocation(@Part(DATA_NAME) UploadLocationRequest request);
 
     /**
      * 下载路径
@@ -132,13 +142,81 @@ public interface IApiService {
      */
     @POST("downloadTrack.do")
     @Multipart
-    Call<GetTracKResult> downloadTrack(@Part(DATA_NAME) com.gmugu.happyhour.message.request.GetTracKRequest request);
+    Call<GetTracKResult> downloadTrack(@Part(DATA_NAME) GetTracKRequest request);
 
+    /**
+     * 获取景点列表
+     *
+     * @param request
+     * @return
+     */
+    @POST("getScenicList.do")
+    @Multipart
+    Call<GetScenicListResult> getScenicList(@Part(DATA_NAME) GetScenicListRequest request);
+
+    /**
+     * 获取旅行队列表
+     *
+     * @param request
+     * @return
+     */
+    @POST("getTeamList.do")
+    @Multipart
+    Call<GetTeamListResult> getTeamList(@Part(DATA_NAME) GetTeamListRequest request);
+
+    /**
+     * 创建旅行队(导游)
+     *
+     * @param request
+     * @return
+     */
+    @POST("createTeam.do")
+    @Multipart
+    Call<CreateTeamResult> createTeam(@Part(DATA_NAME) CreateTeamRequest request);
+
+
+    /**
+     * 解散旅行队(导游)
+     *
+     * @param request
+     * @return
+     */
+    @POST("deleteTeam.do")
+    @Multipart
+    Call<DeleteTeamResult> deleteTeam(@Part(DATA_NAME) DeleteTeamRequest request);
+
+    /**
+     * 加入旅行队(旅客)
+     *
+     * @param request
+     * @return
+     */
+    @POST("joinTeam.do")
+    @Multipart
+    Call<JoinTeamResult> joinTeam(@Part(DATA_NAME) JoinTeamRequest request);
+
+    /**
+     * 退出旅行队(旅客)
+     *
+     * @param request
+     * @return
+     */
+    @POST("outTeam.do")
+    @Multipart
+    Call<OutTeamResult> outTeam(@Part(DATA_NAME) OutTeamRequest request);
+
+    /**
+     * 导游操作---开始或结束
+     *
+     * @param request
+     * @return
+     */
+    @POST("guideCmd.do")
+    @Multipart
+    Call<GuideCmdResult> guideCmd(@Part(DATA_NAME) GuideCmdRequest request);
 
 //    ------test------
 
-    @POST("YesOrNoSpace.do")
-    Call<Void> test();
 
 }
 

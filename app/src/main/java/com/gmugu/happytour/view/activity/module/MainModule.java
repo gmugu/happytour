@@ -7,19 +7,25 @@ import com.gmugu.happytour.data.api.IApiService;
 import com.gmugu.happytour.data.spf.ISpfManager;
 import com.gmugu.happytour.presenter.IMainPresenter;
 import com.gmugu.happytour.presenter.IModifyUserInfoPresenter;
+import com.gmugu.happytour.presenter.IRealTimePresenter;
 import com.gmugu.happytour.presenter.ISettingPresenter;
 import com.gmugu.happytour.presenter.IUserInfoPresenter;
+import com.gmugu.happytour.presenter.impl.MainPresenterImpl;
 import com.gmugu.happytour.presenter.impl.ModifyUserInfoPresenterImpl;
+import com.gmugu.happytour.presenter.impl.RealTimePresenterImpl;
 import com.gmugu.happytour.presenter.impl.SettingPresenterImpl;
 import com.gmugu.happytour.presenter.impl.UserInfoPresenterImpl;
 import com.gmugu.happytour.user.User;
 import com.gmugu.happytour.view.IMainView;
+import com.gmugu.happytour.view.IMapView;
 import com.gmugu.happytour.view.IModifyUserInfoView;
+import com.gmugu.happytour.view.IRealTimeView;
 import com.gmugu.happytour.view.ISettingView;
 import com.gmugu.happytour.view.IUserInfoView;
 import com.gmugu.happytour.view.activity.MainActivity;
 import com.gmugu.happytour.view.activity.Scope.ActivityScope;
 import com.gmugu.happytour.view.fragment.ModifyUserInfoFragment;
+import com.gmugu.happytour.view.fragment.RealTimeFragment;
 import com.gmugu.happytour.view.fragment.SettingFragment;
 import com.gmugu.happytour.view.fragment.UserInfoFragment;
 
@@ -41,15 +47,13 @@ public class MainModule {
     }
 
     @Provides
-    public IMainPresenter providePresenter() {
-        // TODO: 16-4-10
-        return null;
+    public IMainPresenter providePresenter(IMainView view) {
+        return new MainPresenterImpl(view);
     }
 
     @Provides
     public IMainView provideView() {
-        // TODO: 16-4-10
-        return null;
+        return mainActivity;
     }
 
     @ActivityScope
@@ -94,20 +98,20 @@ public class MainModule {
 
     @ActivityScope
     @Provides
-    @Named("UserInfoFragment")
-    public Fragment provideUserInfoFragment() {
-        UserInfoFragment userInfoFragment = UserInfoFragment.newInstance(User.getInstance().getUserInfoModel());
-        return userInfoFragment;
+    @Named("RealTimeFragment")
+    public Fragment provideRealTimeFragment() {
+        RealTimeFragment realTimeFragment = RealTimeFragment.newInstance();
+        return realTimeFragment;
     }
 
     @Provides
-    public IUserInfoPresenter provodeUserInfoPresenter(IUserInfoView view, IApiService apiService, ISpfManager spfManager, Context context) {
-        return new UserInfoPresenterImpl(view, apiService, spfManager, context);
+    public IRealTimePresenter provodeRealTimePresenter(IRealTimeView view, IApiService apiService, ISpfManager spfManager, Context context) {
+        return new RealTimePresenterImpl(view, apiService);
     }
 
     @Provides
-    public IUserInfoView provideUserInfoView(@Named("UserInfoFragment") Fragment fragment) {
-        return (IUserInfoView) fragment;
+    public IRealTimeView provideUserInfoView(@Named("RealTimeFragment") Fragment fragment) {
+        return (IRealTimeView) fragment;
     }
 
 

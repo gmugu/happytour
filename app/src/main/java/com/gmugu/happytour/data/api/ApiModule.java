@@ -1,7 +1,6 @@
 package com.gmugu.happytour.data.api;
 
 
-
 import com.gmugu.happytour.data.spf.ISpfManager;
 
 import java.util.concurrent.TimeUnit;
@@ -20,14 +19,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ApiModule {
 
-//    private String baseUrl = "http://192.168.1.190:12321/";
-    private String baseUrl = "http://192.168.1.190:8080/";
+    //    private String baseUrl = "http://192.168.1.190:12321/";
+//    private String baseUrl = "http://192.168.1.190:8080/happytour/";
+    private String baseUrl = "http://192.168.2.1:8080/happytour/";
+    private int timeout = 100;
 
     @Singleton
     @Provides
     public IApiService provideApiService(final ISpfManager spfManager) {
 
-        OkHttpClient client = new OkHttpClient.Builder().cookieJar(new CookiesHandler(spfManager)).connectTimeout(3, TimeUnit.SECONDS).build();
+        OkHttpClient client = new OkHttpClient.Builder().cookieJar(new CookiesHandler(spfManager)).connectTimeout(timeout, TimeUnit.SECONDS).build();
 
         Retrofit retrofit = new Retrofit.Builder().client(client).baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build();
 

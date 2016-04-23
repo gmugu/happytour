@@ -8,12 +8,13 @@ import com.gmugu.happyhour.message.UserInfoModel;
  */
 public class User {
     private static User instance;
-    private String userId = "anonymous";
-    private UserInfoModel userInfoModel;
+    private Integer userId = 3;
+    private UserInfoModel userInfoModel=new UserInfoModel();
     private String userName;
     private String passwd;
 
     private User() {
+        userInfoModel.setUserType(UserInfoModel.UserType.PASSENGER);
     }
 
     public static User getInstance() {
@@ -41,11 +42,11 @@ public class User {
         this.passwd = passwd;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

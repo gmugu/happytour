@@ -18,7 +18,7 @@ import com.gmugu.happytour.presenter.IRegisterPresenter;
 import com.gmugu.happytour.view.IRegisterView;
 
 
-public class RegisterFragment extends Fragment implements View.OnClickListener, IRegisterView {
+public class RegisterFragment extends BaseFragment implements View.OnClickListener, IRegisterView {
 
     private OnRegisterFragmentInteractionListener mListener;
 

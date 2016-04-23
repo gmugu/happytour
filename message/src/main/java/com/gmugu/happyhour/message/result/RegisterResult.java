@@ -7,21 +7,21 @@ package com.gmugu.happyhour.message.result;
 public class RegisterResult extends BaseResult {
 
     //用户ID
-    private String userId;
+    private Integer userId;
 
     public RegisterResult() {
     }
 
-    public RegisterResult(int code, String message, String userId) {
+    public RegisterResult(int code, String message, Integer userId) {
         super(code, message);
         this.userId = userId;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 }

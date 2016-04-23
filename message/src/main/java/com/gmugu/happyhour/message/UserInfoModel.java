@@ -6,8 +6,15 @@ package com.gmugu.happyhour.message;
  * Created by mugu on 16-4-3 下午5:24.
  */
 public class UserInfoModel extends BaseModel implements Cloneable {
+
+
+    public enum UserType {
+        GUIDE,
+        PASSENGER
+    }
+
     //用户ID
-    private String userId;
+    private Integer userId;
     //头像，返回头像下载路径
     private String portrait;
     //头像文件校验值,为了判断服务器图片与本地缓存是否一致
@@ -24,11 +31,16 @@ public class UserInfoModel extends BaseModel implements Cloneable {
     private Long birthday;
     //城市
     private String city;
+    //联系方式
+    private String phone;
+    //用户类型
+    private UserType userType;
+
 
     public UserInfoModel() {
     }
 
-    public UserInfoModel(String userId, String portrait, String portraitCheckCode, String nickname, String gender, Integer height, Float weight, Long birthday, String city) {
+    public UserInfoModel(Integer userId, String portrait, String portraitCheckCode, String nickname, String gender, Integer height, Float weight, Long birthday, String city) {
         this.userId = userId;
         this.portrait = portrait;
         this.portraitCheckCode = portraitCheckCode;
@@ -40,11 +52,11 @@ public class UserInfoModel extends BaseModel implements Cloneable {
         this.city = city;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -112,6 +124,22 @@ public class UserInfoModel extends BaseModel implements Cloneable {
         this.city = city;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
     @Override
     public String toString() {
         return "UserInfoModel{" +
@@ -120,10 +148,12 @@ public class UserInfoModel extends BaseModel implements Cloneable {
                 ", portraitCheckCode='" + portraitCheckCode + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", gender='" + gender + '\'' +
-                ", height='" + height + '\'' +
-                ", weight='" + weight + '\'' +
+                ", height=" + height +
+                ", weight=" + weight +
                 ", birthday=" + birthday +
                 ", city='" + city + '\'' +
+                ", userType=" + userType +
+                ", phone='" + phone + '\'' +
                 '}';
     }
 
@@ -139,6 +169,8 @@ public class UserInfoModel extends BaseModel implements Cloneable {
         newModel.setPortraitCheckCode(portraitCheckCode);
         newModel.setUserId(userId);
         newModel.setWeight(weight);
+        newModel.setPhone(phone);
+        newModel.setUserType(userType);
         return newModel;
     }
 }

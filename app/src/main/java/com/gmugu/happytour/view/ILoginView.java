@@ -8,8 +8,6 @@ public interface ILoginView {
 
     String getPasswd();
 
-    void showErrorMsgDialog(String message);
-
     void close();
 
     void toMainView();
@@ -17,6 +15,10 @@ public interface ILoginView {
     void toRegister();
 
     void toRetrievePassword();
+
+    void showToase(String msg);
+
+    void showErrorMsgDialog(String message);
 
     void showLoginingTip();
 

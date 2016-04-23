@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.gmugu.happytour.R;
 import com.gmugu.happytour.application.AppComponent;
@@ -80,10 +81,6 @@ public class LoginActivity extends BasicActivity implements ILoginView, View.OnC
         return passwordEt.getText().toString();
     }
 
-    @Override
-    public void showErrorMsgDialog(String message) {
-        new AlertDialog.Builder(this).setTitle("警告").setMessage(message).show();
-    }
 
     @Override
     public void close() {
@@ -106,6 +103,16 @@ public class LoginActivity extends BasicActivity implements ILoginView, View.OnC
     public void toRetrievePassword() {
         Intent intent = new Intent(RETRIEVE_PASSWORD_ACTIVITY_ACTION);
         startActivity(intent);
+    }
+
+    @Override
+    public void showToase(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showErrorMsgDialog(String message) {
+        new AlertDialog.Builder(this).setTitle("警告").setMessage(message).show();
     }
 
     @Override

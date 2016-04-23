@@ -1,28 +1,36 @@
 package com.gmugu.happytour.view.activity;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RadioGroup;
 
 import com.gmugu.happytour.R;
 import com.gmugu.happytour.application.AppComponent;
 import com.gmugu.happytour.comment.assist.Log;
-import com.gmugu.happytour.comment.constant.ActivityActionName;
+import com.gmugu.happytour.presenter.IMainPresenter;
 import com.gmugu.happytour.presenter.IModifyUserInfoPresenter;
+import com.gmugu.happytour.presenter.IRealTimePresenter;
 import com.gmugu.happytour.presenter.ISettingPresenter;
-import com.gmugu.happytour.presenter.IUserInfoPresenter;
 import com.gmugu.happytour.view.IMainView;
 import com.gmugu.happytour.view.activity.component.DaggerMainComponent;
 import com.gmugu.happytour.view.activity.module.MainModule;
 import com.gmugu.happytour.view.fragment.ModifyUserInfoFragment;
+import com.gmugu.happytour.view.fragment.RealTimeFragment;
 import com.gmugu.happytour.view.fragment.SettingFragment;
-import com.gmugu.happytour.view.fragment.UserInfoFragment;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 
-public class MainActivity extends BasicActivity implements IMainView, SettingFragment.OnFragmentInteractionListener, ModifyUserInfoFragment.OnModifyUserInfoFragmentInteractionListener, UserInfoFragment.OnUserInfoFragmentInteractionListener {
+public class MainActivity extends BasicActivity implements
+        IMainView,
+        SettingFragment.OnFragmentInteractionListener,
+        ModifyUserInfoFragment.OnModifyUserInfoFragmentInteractionListener,
+        RealTimeFragment.OnReadTimeFragmentInteractionListener {
+
+    @Inject
+    protected IMainPresenter mainPresenter;
 
     /********************
      * Setting
@@ -40,32 +48,66 @@ public class MainActivity extends BasicActivity implements IMainView, SettingFra
     @Inject
     @Named("ModifyUserInfoFragment")
     protected Fragment modifyFragment;
-
     @Inject
     protected IModifyUserInfoPresenter modifyUserInfoPresenter;
 
     /********************
-     * UserInfo
+     * RealTimeFragment
      ********************/
 
     @Inject
-    @Named("UserInfoFragment")
-    protected Fragment userInfoFragment;
-
+    @Named("RealTimeFragment")
+    protected Fragment realTimeFragment;
     @Inject
-    protected IUserInfoPresenter userInfoPresenter;
+    protected IRealTimePresenter realTimePresenter;
+
+
+    private RadioGroup navigationRg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initView();
 
-        getFragmentManager().beginTransaction().replace(R.id.root_view, userInfoFragment).commit();
-        if (true) {
-            Intent i = new Intent(ActivityActionName.LOGIN_ACTIVITY_ACTION);
-            startActivity(i);
-        }
 
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        getFragmentManager().beginTransaction().replace(R.id.activity_main_context_fl, fragment).commit();
+    }
+
+    private void initView() {
+        navigationRg = (RadioGroup) findViewById(R.id.activity_main_navigation_rg);
+        navigationRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                for (int i = 0; i < group.getChildCount(); ++i) {
+                    View childAt = group.getChildAt(i);
+                    if (childAt.getId() == checkedId) {
+                        childAt.setBackgroundColor(0xffffffff);
+                    } else {
+                        childAt.setBackgroundColor(0xff9f9f9f);
+                    }
+                }
+                switch (checkedId) {
+                    case R.id.activity_main_map_rb:
+                        mainPresenter.onMapRbPressed();
+                        break;
+                    case R.id.activity_main_track_rb:
+                        mainPresenter.onTrackRbPressed();
+                        break;
+                    case R.id.activity_main_chat_rb:
+                        mainPresenter.onChatRbPressed();
+                        break;
+                    case R.id.activity_main_setting_rb:
+                        mainPresenter.onSettingRbPressed();
+                        break;
+                }
+
+            }
+        });
+        navigationRg.check(R.id.activity_main_map_rb);
     }
 
 
@@ -76,14 +118,14 @@ public class MainActivity extends BasicActivity implements IMainView, SettingFra
 
 
     @Override
-    public ISettingPresenter getSettingPresenter() {
-        Log.e(this, settingFragment != null);
-        return settingPresenter;
+    public void toModifyUserInfo() {
+        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.root_view, modifyFragment).commit();
     }
 
     @Override
-    public void toModifyUserInfo() {
-        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.root_view, modifyFragment).commit();
+    public ISettingPresenter getSettingPresenter() {
+        Log.e(this, settingFragment != null);
+        return settingPresenter;
     }
 
     @Override
@@ -92,7 +134,12 @@ public class MainActivity extends BasicActivity implements IMainView, SettingFra
     }
 
     @Override
-    public IUserInfoPresenter getUserInfoPresenter() {
-        return userInfoPresenter;
+    public IRealTimePresenter getRealTimePresenter() {
+        return realTimePresenter;
+    }
+
+    @Override
+    public void replaceToMapFragment() {
+        replaceFragment(realTimeFragment);
     }
 }

@@ -13,7 +13,7 @@ import com.gmugu.happytour.presenter.ISettingPresenter;
 import com.gmugu.happytour.view.ISettingView;
 
 
-public class SettingFragment extends Fragment implements View.OnClickListener, ISettingView {
+public class SettingFragment extends BaseFragment implements View.OnClickListener, ISettingView {
 
 
     private Button modifyUserInfoBn;

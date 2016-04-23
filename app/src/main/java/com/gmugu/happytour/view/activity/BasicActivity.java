@@ -2,11 +2,14 @@ package com.gmugu.happytour.view.activity;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.gmugu.happytour.application.AppComponent;
 import com.gmugu.happytour.application.MyApplication;
 import com.gmugu.happytour.comment.assist.Log;
+import com.gmugu.happytour.view.IMessageView;
 
 /**
  * Created by mugu on 16-4-2 下午5:52.
@@ -76,5 +79,7 @@ public abstract class BasicActivity extends Activity {
         super.onDestroy();
         Log.i(this, "onDestroy");
     }
+
+
 
 }

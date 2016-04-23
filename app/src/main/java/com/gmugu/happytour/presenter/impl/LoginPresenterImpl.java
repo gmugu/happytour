@@ -96,9 +96,9 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     loginView.showErrorMsgDialog(result.getMessage());
                 } else {
                     UserInfoModel userInfoModel = result.getUserInfoModel();
-                    String userId = userInfoModel.getUserId();
+                    Integer userId = userInfoModel.getUserId();
                     try {
-                        byte[] headimg = spfManager.getHeadimg(userId);
+                        byte[] headimg = spfManager.getHeadimg(userId+"");
                         String s = MD5Util.md5ToHexStr(headimg);
                         Log.e(this, "headimg", s);
                         if (!s.equals(userInfoModel.getPortraitCheckCode())) {
@@ -113,7 +113,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     user.setUserId(userId);
                     user.setUserInfoModel(userInfoModel);
                     try {
-                        spfManager.saveOrUpdateUserInfo(userInfoModel.getUserId(), userInfoModel);
+                        spfManager.saveOrUpdateUserInfo(userInfoModel.getUserId()+"", userInfoModel);
                     } catch (SpfManagetException e) {
                         e.printStackTrace();
                     }
@@ -131,9 +131,9 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
                         try {
                             byte[] bytes = response.body().bytes();
-                            String path = spfManager.saveOrUpdateHeadimg(userInfoModel.getUserId(), bytes);
+                            String path = spfManager.saveOrUpdateHeadimg(userInfoModel.getUserId()+"", bytes);
                             userInfoModel.setPortrait(path);
-                            spfManager.saveOrUpdateUserInfo(userInfoModel.getUserId(), userInfoModel);
+                            spfManager.saveOrUpdateUserInfo(userInfoModel.getUserId()+"", userInfoModel);
                         } catch (IOException | SpfManagetException e) {
                             e.printStackTrace();
                         }

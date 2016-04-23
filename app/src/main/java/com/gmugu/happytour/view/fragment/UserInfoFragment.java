@@ -12,7 +12,7 @@ import com.gmugu.happyhour.message.UserInfoModel;
 import com.gmugu.happytour.presenter.IUserInfoPresenter;
 import com.gmugu.happytour.view.IUserInfoView;
 
-public class UserInfoFragment extends Fragment implements IUserInfoView{
+public class UserInfoFragment extends BaseFragment implements IUserInfoView{
 
     private final static String ARG_USER_INFO = "userinfo";
     private UserInfoModel userInfoModel;
