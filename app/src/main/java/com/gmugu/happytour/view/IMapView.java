@@ -1,26 +1,42 @@
 package com.gmugu.happytour.view;
 
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.gmugu.happyhour.message.TrackModel;
 import com.gmugu.happyhour.message.TrackPointModel;
+
+import java.util.Map;
 
 /**
  * Created by mugu on 16-4-19 上午10:50.
  */
 public interface IMapView {
 
-    void showTrack(TrackModel track);
+    Map<String, OverlayOptions> getOverlays();
 
-    void cleanTrack();
+    void updateMap();
 
-    void addPoint(TrackPointModel trackPoint);
+    void cleanMap();
 
-    void addPoint(double longitude, double latitude);
+    void addOverlay(String name, OverlayOptions overlay);
 
-    void addStartPoint(double longitude, double latitude);
+    void removeOverlayAndUpdate(String name);
 
-    void addEndPoint(double longitude, double latitude);
-
-    void addMarker();
+    void removeOverlay(String name);
 
     void animateToLocation(float radius, double longitude, double latitude);
+
+    void setOnMarkerClickListener(BaiduMap.OnMarkerClickListener l);
+
+    void addTrack(String trackName, TrackModel track);
+
+    void removeTrack(String trackName);
+
+    void addPointToTrack(String trackName, double longitude, double latitude);
+
+    void addStartPoint(String pointName, double longitude, double latitude);
+
+    void addEndPoint(String pointName, double longitude, double latitude);
+
+
 }

@@ -19,4 +19,10 @@ public interface IRealTimePresenter {
     void onStartBnPressed();
 
     void onStopBnPressed();
+
+    void onCreateView();
+
+    void onLocToScenicBnPressed();
+
+    void onLocToSelfBnPressed();
 }

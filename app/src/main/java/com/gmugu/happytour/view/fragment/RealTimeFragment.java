@@ -2,7 +2,9 @@ package com.gmugu.happytour.view.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +13,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.model.LatLng;
 import com.gmugu.happyhour.message.TravelTeamModel;
+import com.gmugu.happyhour.message.UserLocationModel;
 import com.gmugu.happytour.R;
+import com.gmugu.happytour.application.MyApplication;
+import com.gmugu.happytour.comment.assist.Log;
 import com.gmugu.happytour.presenter.IRealTimePresenter;
 import com.gmugu.happytour.user.User;
 import com.gmugu.happytour.view.IRealTimeView;
@@ -43,9 +55,14 @@ public class RealTimeFragment extends BaseFragment implements IRealTimeView, Vie
     private Button deleteBn;
     private Button joinBn;
     private Button outBn;
-    private ListView teamList;
     private Button startBn;
     private Button stopBn;
+    private Button locToScenicBn;
+    private Button locToSelfBn;
+
+    private ListView teamList;
+
+    private Map<String, BitmapDescriptor> makersMap = new HashMap<>();
 
     public RealTimeFragment() {
 
@@ -67,6 +84,7 @@ public class RealTimeFragment extends BaseFragment implements IRealTimeView, Vie
         this.inflater = inflater;
         mView = inflater.inflate(R.layout.fragment_real_time, container, false);
         initView();
+        realTimePresenter.onCreateView();
         return mView;
     }
 
@@ -95,6 +113,10 @@ public class RealTimeFragment extends BaseFragment implements IRealTimeView, Vie
         startBn.setOnClickListener(this);
         stopBn = (Button) findViewById(R.id.fragment_read_time_stop_bn);
         stopBn.setOnClickListener(this);
+        locToScenicBn = (Button) findViewById(R.id.fragment_read_time_loc_to_scenic_bn);
+        locToScenicBn.setOnClickListener(this);
+        locToSelfBn = (Button) findViewById(R.id.fragment_read_time_loc_to_self_bn);
+        locToSelfBn.setOnClickListener(this);
 
     }
 
@@ -134,6 +156,21 @@ public class RealTimeFragment extends BaseFragment implements IRealTimeView, Vie
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        recycleMakers();
+    }
+
+    private void recycleMakers() {
+        if (makersMap != null) {
+            for (String key : makersMap.keySet()) {
+                makersMap.get(key).recycle();
+            }
+            makersMap.clear();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fragment_read_time_create_bn:
@@ -153,6 +190,12 @@ public class RealTimeFragment extends BaseFragment implements IRealTimeView, Vie
                 break;
             case R.id.fragment_read_time_stop_bn:
                 realTimePresenter.onStopBnPressed();
+                break;
+            case R.id.fragment_read_time_loc_to_scenic_bn:
+                realTimePresenter.onLocToScenicBnPressed();
+                break;
+            case R.id.fragment_read_time_loc_to_self_bn:
+                realTimePresenter.onLocToSelfBnPressed();
                 break;
             default:
                 break;
@@ -247,6 +290,68 @@ public class RealTimeFragment extends BaseFragment implements IRealTimeView, Vie
     public void showOutDialog() {
         initTeamListView();
         new AlertDialog.Builder(getActivity()).setTitle("退出旅行队").setNegativeButton("取消", null).setView(teamList).show();
+    }
+
+
+    @Override
+    public void updateTeamLocOnMap(Map<Integer, UserLocationModel> usersLoactionInfo) {
+        try {
+            for (Integer key : usersLoactionInfo.keySet()) {
+                UserLocationModel info = usersLoactionInfo.get(key);
+                removeOneManToMap(info.getUserId());
+            }
+            for (Integer key : usersLoactionInfo.keySet()) {
+                UserLocationModel info = usersLoactionInfo.get(key);
+                Log.e(info.getNikename(), info.getCurLat(), info.getCurLog());
+                addOneManToMap(info.getUserId(), info.getNikename(), info.getCurLog(), info.getCurLat());
+            }
+            mapViewFragment.updateMap();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void removeOneManToMap(Integer userId) {
+        if (makersMap.containsKey(userId.toString())) {
+            makersMap.remove(userId.toString()).recycle();
+            mapViewFragment.removeOverlay(userId.toString());
+        }
+    }
+
+    private void addOneManToMap(Integer userId, String name, double log, double lat) {
+        LatLng latLng = new LatLng(lat, log);
+        Context context = MyApplication.getInstance();
+        LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        TextView child = new TextView(context);
+        child.setText(name);
+        child.setTextColor(Color.RED);
+        layout.addView(child);
+        ImageView child1 = new ImageView(context);
+        child1.setImageResource(R.drawable.icon_gcoding);
+        layout.addView(child1);
+
+        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromView(layout);
+        makersMap.put(userId.toString(), bitmap);
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(latLng)
+                .icon(bitmap)
+                .anchor(0.5f, 1);
+        mapViewFragment.addOverlay(userId.toString(), markerOptions);
+    }
+
+    @Override
+    public void cleanMap() {
+        mapViewFragment.cleanMap();
+        mapViewFragment.getOverlays().clear();
+        recycleMakers();
+        mapViewFragment.updateMap();
+    }
+
+    @Override
+    public void addSelfPoint(Integer userId, double longitude, double latitude) {
+        removeOneManToMap(userId);
+        addOneManToMap(userId, User.getInstance().getUserInfoModel().getNickname(), longitude, latitude);
     }
 
 

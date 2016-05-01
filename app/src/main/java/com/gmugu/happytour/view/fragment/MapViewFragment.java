@@ -1,6 +1,5 @@
 package com.gmugu.happytour.view.fragment;
 
-import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +21,7 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.gmugu.happyhour.message.TrackModel;
@@ -32,7 +32,9 @@ import com.gmugu.happytour.data.common.baidumap.BaiduLocation;
 import com.gmugu.happytour.view.IMapView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -49,8 +51,15 @@ public class MapViewFragment extends BaseFragment implements IMapView {
     // 路线覆盖物
     private PolylineOptions polyline = null;
 
+    //起点位图
+    private BitmapDescriptor startBitmap;
+    //终点位图
+    private BitmapDescriptor endBitmap;
+
     //data
-    private List<LatLng> pointList;
+    private Map<String, List<LatLng>> pointLiistMap;
+
+    private Map<String, OverlayOptions> overlayMap = new HashMap<>();
 
     public MapViewFragment() {
 
@@ -59,7 +68,7 @@ public class MapViewFragment extends BaseFragment implements IMapView {
     public static MapViewFragment newInstence() {
         MapViewFragment fragment = new MapViewFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList("pointList", new ArrayList<LatLng>());
+        args.putSerializable("pointLiistMap", new HashMap<String, List<LatLng>>());
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,7 +78,7 @@ public class MapViewFragment extends BaseFragment implements IMapView {
         super.onCreate(bundle);
         Log.i(this, "onCreate");
         Bundle args = getArguments();
-        pointList = args.getParcelableArrayList("pointList");
+        pointLiistMap = (Map<String, List<LatLng>>) args.getSerializable("pointLiistMap");
         mMapView = new MapView(getActivity(), new BaiduMapOptions().mapStatus(new MapStatus.Builder().zoom(18).build()));
 
         // 删除百度地图logo
@@ -98,13 +107,15 @@ public class MapViewFragment extends BaseFragment implements IMapView {
     }
 
     private void location() {
-        BaiduLocation client = new BaiduLocation.Builder(getActivity()).setSpan(0).build();
-        client.registerLocationListener(new BDLocationListener() {
+        final BaiduLocation client = new BaiduLocation.Builder(getActivity()).setSpan(0).build();
+        final BDLocationListener listener = new BDLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
                 animateToLocation(bdLocation.getRadius(), bdLocation.getLongitude(), bdLocation.getLatitude());
+                client.unRegisterLocationListener(this);
             }
-        });
+        };
+        client.registerLocationListener(listener);
         client.start();
     }
 
@@ -124,26 +135,132 @@ public class MapViewFragment extends BaseFragment implements IMapView {
     public void onDestroy() {
         super.onDestroy();
         mMapView.onDestroy();
+        if (startBitmap != null) {
+            startBitmap.recycle();
+        }
+        if (endBitmap != null) {
+            endBitmap.recycle();
+        }
     }
 
+
+    @Override
+    public Map<String, OverlayOptions> getOverlays() {
+        return overlayMap;
+    }
+
+    @Override
+    public void updateMap() {
+        mBaiduMap.clear();
+        for (String key : overlayMap.keySet()) {
+            OverlayOptions overlayOptions = overlayMap.get(key);
+            mBaiduMap.addOverlay(overlayOptions);
+        }
+
+    }
+
+    @Override
+    public void cleanMap() {
+        mBaiduMap.clear();
+    }
 
     /**
      * 添加地图覆盖物
      */
     @Override
-    public void addMarker() {
-
-        // 路线覆盖物
-//        if (null != polyline) {
-//            mBaiduMap.addOverlay(polyline);
-//        }
-
-//        // 实时点覆盖物
-//        if (null != overlay) {
-//            mBaiduMap.addOverlay(overlay);
-//        }
+    public void addOverlay(String name, OverlayOptions overlay) {
+        overlayMap.put(name, overlay);
+        mBaiduMap.addOverlay(overlay);
     }
 
+    @Override
+    public void removeOverlayAndUpdate(String name) {
+        overlayMap.remove(name);
+        updateMap();
+    }
+
+    @Override
+    public void removeOverlay(String name){
+        overlayMap.remove(name);
+    }
+
+
+    @Override
+    public void animateToLocation(float radius, double longitude, double latitude) {
+
+        try {
+            MyLocationData locData = new MyLocationData.Builder()
+                    .accuracy(radius) // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(100)
+                    .latitude(latitude)
+                    .longitude(longitude)
+                    .build();
+            mBaiduMap.setMyLocationData(locData);
+
+            MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18f);
+            mBaiduMap.animateMapStatus(u);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void setOnMarkerClickListener(BaiduMap.OnMarkerClickListener l) {
+        mBaiduMap.setOnMarkerClickListener(l);
+    }
+
+    @Override
+    public void addTrack(String trackName, TrackModel track) {
+        List<LatLng> list = new ArrayList<>();
+        for (TrackPointModel trackPoint : track.getTrackList()) {
+            list.add(new LatLng(trackPoint.getLatitude(), trackPoint.getLongitude()));
+        }
+        if (list.size() >= 2 && list.size() <= 10000) {
+            // 添加路线（轨迹）
+            PolylineOptions polyline = new PolylineOptions().width(10)
+                    .color(Color.RED).points(list);
+            addOverlay(trackName, polyline);
+            pointLiistMap.put(trackName, list);
+        }
+    }
+
+    @Override
+    public void removeTrack(String trackName) {
+        removeOverlayAndUpdate(trackName);
+        pointLiistMap.remove(trackName);
+    }
+
+    @Override
+    public void addPointToTrack(String trackName, double longitude, double latitude) {
+        List<LatLng> latLngs = pointLiistMap.get(trackName);
+        latLngs.add(new LatLng(latitude, longitude));
+        updateMap();
+    }
+
+    @Override
+    public void addStartPoint(String pointName, double longitude, double latitude) {
+        if (startBitmap == null) {
+            startBitmap = BitmapDescriptorFactory.fromResource(R.drawable.icon_start);
+        }
+        MarkerOptions point = new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .draggable(false)
+                .icon(startBitmap);
+        addOverlay(pointName, point);
+    }
+
+    @Override
+    public void addEndPoint(String pointName, double longitude, double latitude) {
+        if (endBitmap == null) {
+            endBitmap = BitmapDescriptorFactory.fromResource(R.drawable.icon_end);
+        }
+        MarkerOptions point = new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .draggable(false)
+                .icon(endBitmap);
+        addOverlay(pointName, point);
+    }
 
     private void showLocationInfo(BDLocation location, double longitude, double latitude) {
         StringBuilder sb = new StringBuilder();
@@ -182,81 +299,7 @@ public class MapViewFragment extends BaseFragment implements IMapView {
             sb.append("\ndescribe : ");
             sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
         }
-        Toast.makeText(getActivity(), latitude + "  " + longitude + "\n" + sb + "\n" + pointList.size(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void animateToLocation(float radius, double longitude, double latitude) {
-        MyLocationData locData = new MyLocationData.Builder()
-                .accuracy(radius) // 此处设置开发者获取到的方向信息，顺时针0-360
-                .direction(100)
-                .latitude(latitude)
-                .longitude(longitude)
-                .build();
-        mBaiduMap.setMyLocationData(locData);
-
-        MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18f);
-        mBaiduMap.animateMapStatus(u);
-
-    }
-
-    public void setOnMarkerClickListener(BaiduMap.OnMarkerClickListener l) {
-        mBaiduMap.setOnMarkerClickListener(l);
-    }
-
-    private void showTrackOnView() {
-        if (pointList.size() >= 2 && pointList.size() <= 10000) {
-            // 添加路线（轨迹）
-            polyline = new PolylineOptions().width(10)
-                    .color(Color.RED).points(pointList);
-            mBaiduMap.addOverlay(polyline);
-        }
-    }
-
-    @Override
-    public void showTrack(TrackModel track) {
-        cleanTrack();
-        for (TrackPointModel trackPoint : track.getTrackList()) {
-            pointList.add(new LatLng(trackPoint.getLatitude(), trackPoint.getLongitude()));
-        }
-        showTrackOnView();
-    }
-
-    @Override
-    public void cleanTrack() {
-        mBaiduMap.clear();
-        pointList.clear();
-    }
-
-    @Override
-    public void addPoint(TrackPointModel trackPoint) {
-        addPoint(trackPoint.getLongitude(), trackPoint.getLatitude());
-    }
-
-    @Override
-    public void addPoint(double longitude, double latitude) {
-        pointList.add(new LatLng(latitude, longitude));
-        showTrackOnView();
-    }
-
-    @Override
-    public void addStartPoint(double longitude, double latitude) {
-        BitmapDescriptor realtimeBitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.icon_start);
-
-        MarkerOptions overlay = new MarkerOptions().position(new LatLng(latitude, longitude))
-                .icon(realtimeBitmap).zIndex(9).draggable(true);
-        mBaiduMap.addOverlay(overlay);
-    }
-
-    @Override
-    public void addEndPoint(double longitude, double latitude) {
-        BitmapDescriptor realtimeBitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.icon_end);
-
-        MarkerOptions overlay = new MarkerOptions().position(new LatLng(latitude, longitude))
-                .icon(realtimeBitmap).zIndex(9).draggable(true);
-        mBaiduMap.addOverlay(overlay);
+        Toast.makeText(getActivity(), latitude + "  " + longitude + "\n" + sb + "\n" + pointLiistMap.size(), Toast.LENGTH_SHORT).show();
     }
 
 }

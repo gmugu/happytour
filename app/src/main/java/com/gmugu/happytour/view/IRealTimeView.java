@@ -1,13 +1,15 @@
 package com.gmugu.happytour.view;
 
 import com.gmugu.happyhour.message.TravelTeamModel;
+import com.gmugu.happyhour.message.UserLocationModel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by mugu on 16-4-19 下午10:16.
  */
-public interface IRealTimeView extends IMessageView{
+public interface IRealTimeView extends IMessageView {
     void showCreateDialog();
 
 
@@ -28,4 +30,10 @@ public interface IRealTimeView extends IMessageView{
     void showJoinDialog();
 
     void showOutDialog();
+
+    void updateTeamLocOnMap(Map<Integer, UserLocationModel> usersLoactionInfo);
+
+    void cleanMap();
+
+    void addSelfPoint(Integer userId, double longitude, double latitude);
 }

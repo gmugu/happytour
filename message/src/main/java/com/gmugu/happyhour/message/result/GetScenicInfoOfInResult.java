@@ -3,15 +3,15 @@ package com.gmugu.happyhour.message.result;
 import com.gmugu.happyhour.message.ScenicModel;
 
 /**
- * Created by mugu on 16-4-23 下午7:29.
+ * Created by mugu on 16-4-29 上午11:32.
  */
-public class GuideCmdResult extends BaseResult {
+public class GetScenicInfoOfInResult extends BaseResult {
     private ScenicModel scenicModel;
 
-    public GuideCmdResult() {
+    public GetScenicInfoOfInResult() {
     }
 
-    public GuideCmdResult(int code, String message, ScenicModel scenicModel) {
+    public GetScenicInfoOfInResult(int code, String message, ScenicModel scenicModel) {
         super(code, message);
         this.scenicModel = scenicModel;
     }

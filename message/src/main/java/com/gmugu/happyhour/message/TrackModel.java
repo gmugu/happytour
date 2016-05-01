@@ -12,7 +12,7 @@ public class TrackModel extends BaseModel {
     //用户ID
     private Integer userId;
     //轨迹快照
-    private com.gmugu.happyhour.message.TrackSnapshotsModel trackSnapshotsModel;
+    private TrackSnapshotsModel trackSnapshotsModel;
     //位置间隔数组
     private List<TrackPointModel> trackList;
 

@@ -15,7 +15,7 @@ public class Distancer {
     /**
      * 计算两个点之间的距离(单位:经纬度)
      *
-     * @return
+     * @return 距离(千米)
      */
     public static double reckon(double prevLongitude, double prevLatitude, double lastLongitude, double lastLatitude) {
         double radlat1 = rad(prevLatitude);

@@ -125,7 +125,6 @@ public class SpfManagerImpl implements ISpfManager {
         try {
             List<Cookie> old = cookiesCache.get(host);
             if (old == null) {
-                cookiesCache.put(host, cookies);
                 old = cookies;
             } else {
                 List<Cookie> newlist = new ArrayList<>();
@@ -141,6 +140,7 @@ public class SpfManagerImpl implements ISpfManager {
                 }
                 old = newlist;
             }
+            cookiesCache.put(host, old);
             writer = new FileWriter(cookiesDir.getAbsoluteFile() + File.separator + "Cookie_" + host);
             writer.write(new Gson().toJson(old));
             writer.flush();

@@ -12,12 +12,14 @@ import com.gmugu.happytour.presenter.IMainPresenter;
 import com.gmugu.happytour.presenter.IModifyUserInfoPresenter;
 import com.gmugu.happytour.presenter.IRealTimePresenter;
 import com.gmugu.happytour.presenter.ISettingPresenter;
+import com.gmugu.happytour.presenter.IUserTrackPresenter;
 import com.gmugu.happytour.view.IMainView;
 import com.gmugu.happytour.view.activity.component.DaggerMainComponent;
 import com.gmugu.happytour.view.activity.module.MainModule;
 import com.gmugu.happytour.view.fragment.ModifyUserInfoFragment;
 import com.gmugu.happytour.view.fragment.RealTimeFragment;
 import com.gmugu.happytour.view.fragment.SettingFragment;
+import com.gmugu.happytour.view.fragment.UserTrackFragment;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,7 +29,8 @@ public class MainActivity extends BasicActivity implements
         IMainView,
         SettingFragment.OnFragmentInteractionListener,
         ModifyUserInfoFragment.OnModifyUserInfoFragmentInteractionListener,
-        RealTimeFragment.OnReadTimeFragmentInteractionListener {
+        RealTimeFragment.OnReadTimeFragmentInteractionListener,
+        UserTrackFragment.OnUserTrackFragmentInteractionListener {
 
     @Inject
     protected IMainPresenter mainPresenter;
@@ -61,6 +64,14 @@ public class MainActivity extends BasicActivity implements
     @Inject
     protected IRealTimePresenter realTimePresenter;
 
+    /********************
+     * UserTrackFragment
+     ********************/
+    @Inject
+    @Named("UserTrackFragment")
+    protected Fragment userTrackFragment;
+    @Inject
+    protected IUserTrackPresenter userTrackPresenter;
 
     private RadioGroup navigationRg;
 
@@ -69,7 +80,6 @@ public class MainActivity extends BasicActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-
 
     }
 
@@ -139,7 +149,28 @@ public class MainActivity extends BasicActivity implements
     }
 
     @Override
+    public IUserTrackPresenter getUserTrackPresenter() {
+        return userTrackPresenter;
+    }
+
+    @Override
     public void replaceToMapFragment() {
         replaceFragment(realTimeFragment);
     }
+
+    @Override
+    public void replaceToTrackFragment() {
+        replaceFragment(userTrackFragment);
+    }
+
+    @Override
+    public void replaceToChatFragment() {
+
+    }
+
+    @Override
+    public void replaceToSettingFragment() {
+        replaceFragment(settingFragment);
+    }
+
 }

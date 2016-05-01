@@ -98,10 +98,9 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     UserInfoModel userInfoModel = result.getUserInfoModel();
                     Integer userId = userInfoModel.getUserId();
                     try {
-                        byte[] headimg = spfManager.getHeadimg(userId+"");
-                        String s = MD5Util.md5ToHexStr(headimg);
-                        Log.e(this, "headimg", s);
-                        if (!s.equals(userInfoModel.getPortraitCheckCode())) {
+                        UserInfoModel userInfo = spfManager.getUserInfo(userId + "");
+                        String portraitCheckCode = userInfo.getPortraitCheckCode();
+                        if (!portraitCheckCode.equals(userInfoModel.getPortraitCheckCode())) {
                             throw new Exception("should update head image");
                         }
                     } catch (Exception e) {
@@ -134,7 +133,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                             String path = spfManager.saveOrUpdateHeadimg(userInfoModel.getUserId()+"", bytes);
                             userInfoModel.setPortrait(path);
                             spfManager.saveOrUpdateUserInfo(userInfoModel.getUserId()+"", userInfoModel);
-                        } catch (IOException | SpfManagetException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
 

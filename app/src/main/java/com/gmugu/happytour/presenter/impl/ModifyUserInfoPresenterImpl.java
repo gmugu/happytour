@@ -104,6 +104,9 @@ public class ModifyUserInfoPresenterImpl implements IModifyUserInfoPresenter {
     public void saveOrUpdateUserInfo(final UserInfoModel userInfoModel, final MultipartBody.Part headImg) {
         AddOrUpdateUserInfoRequest request = new AddOrUpdateUserInfoRequest();
         request.setUserInfoModel(userInfoModel);
+        if (headImg != null) {
+            request = null;
+        }
         addOrUpdateUserInfoResultCall = apiService.addOrUpdateUserInfo(request, headImg);
         addOrUpdateUserInfoResultCall.enqueue(new Callback<AddOrUpdateUserInfoResult>() {
             @Override
@@ -119,7 +122,7 @@ public class ModifyUserInfoPresenterImpl implements IModifyUserInfoPresenter {
 
                     User user = User.getInstance();
                     user.setUserInfoModel(userInfoModel);
-                    String userId = user.getUserId()+"";
+                    String userId = user.getUserId() + "";
                     try {
                         spfManager.saveOrUpdateUserInfo(userId, userInfoModel);//保存用户信息到本地
                     } catch (SpfManagetException e) {
@@ -227,7 +230,7 @@ public class ModifyUserInfoPresenterImpl implements IModifyUserInfoPresenter {
                 options.inSampleSize = (int) Math.pow(2.0D, i);
                 // 这里之前设置为了true，所以要改为false，否则就创建不出图片
                 options.inJustDecodeBounds = false;
-                
+
                 bitmap = BitmapFactory.decodeStream(temp, null, options);
                 break;
             }

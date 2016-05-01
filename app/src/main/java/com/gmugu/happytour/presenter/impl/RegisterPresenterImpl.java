@@ -2,9 +2,9 @@ package com.gmugu.happytour.presenter.impl;
 
 import com.gmugu.happytour.comment.assist.Checker;
 import com.gmugu.happytour.data.api.IApiService;
-import com.gmugu.happyhour.message.request.RegisterCaptchaRequest;
+import com.gmugu.happyhour.message.request.GetRegisterCaptchaRequest;
 import com.gmugu.happyhour.message.request.RegisterRequest;
-import com.gmugu.happyhour.message.result.RegisterCaptchaResult;
+import com.gmugu.happyhour.message.result.GetRegisterCaptchaResult;
 import com.gmugu.happyhour.message.result.RegisterResult;
 import com.gmugu.happytour.presenter.IRegisterPresenter;
 import com.gmugu.happytour.user.User;
@@ -24,7 +24,7 @@ public class RegisterPresenterImpl implements IRegisterPresenter {
 
     private IRegisterView view;
     private IApiService apiService;
-    private Call<RegisterCaptchaResult> registerCaptchaCall;
+    private Call<GetRegisterCaptchaResult> registerCaptchaCall;
     private Call<RegisterResult> registerCall;
 
     public RegisterPresenterImpl(IRegisterView view, IApiService apiService) {
@@ -45,15 +45,15 @@ public class RegisterPresenterImpl implements IRegisterPresenter {
             view.showToast("邮箱格式不正确!");
             return;
         }
-        RegisterCaptchaRequest request = new RegisterCaptchaRequest();
-        request.setCaptchaType(RegisterCaptchaRequest.CaptchaType.EMAIL);
+        GetRegisterCaptchaRequest request = new GetRegisterCaptchaRequest();
+        request.setCaptchaType(GetRegisterCaptchaRequest.CaptchaType.EMAIL);
         request.setVerifiable(eMail);
         registerCaptchaCall = apiService.getRegisterCaptcha(request);
-        registerCaptchaCall.enqueue(new Callback<RegisterCaptchaResult>() {
+        registerCaptchaCall.enqueue(new Callback<GetRegisterCaptchaResult>() {
             @Override
-            public void onResponse(Call<RegisterCaptchaResult> call, Response<RegisterCaptchaResult> response) {
+            public void onResponse(Call<GetRegisterCaptchaResult> call, Response<GetRegisterCaptchaResult> response) {
                 view.cancelWaitingTip();
-                RegisterCaptchaResult result = response.body();
+                GetRegisterCaptchaResult result = response.body();
                 if (result == null) {
                     view.showErrorMsgDialog("连接失败");
                 } else if (result.getCode() != 0) {
@@ -64,7 +64,7 @@ public class RegisterPresenterImpl implements IRegisterPresenter {
             }
 
             @Override
-            public void onFailure(Call<RegisterCaptchaResult> call, Throwable t) {
+            public void onFailure(Call<GetRegisterCaptchaResult> call, Throwable t) {
                 t.printStackTrace();
                 if (t instanceof SocketTimeoutException) {
                     view.showErrorMsgDialog("连接超时");
@@ -81,12 +81,6 @@ public class RegisterPresenterImpl implements IRegisterPresenter {
 
     @Override
     public void onNextBnPressed() {
-        try {
-            view.toModifyUserInfo();
-            return;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         String eMail = view.getEMail();
         String token = view.getToken();

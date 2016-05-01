@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.gmugu.happytour.view.fragment.UserTrackFragment">
+
+    <ListView
+        android:id="@+id/fragment_user_track_lv"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true" />
+
+    <FrameLayout
+        android:layout_toRightOf="@id/fragment_user_track_lv"
+        android:id="@+id/fragment_user_track_fl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

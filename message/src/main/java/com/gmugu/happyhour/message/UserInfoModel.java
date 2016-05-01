@@ -158,17 +158,55 @@ public class UserInfoModel extends BaseModel implements Cloneable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserInfoModel that = (UserInfoModel) o;
+
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (portrait != null ? !portrait.equals(that.portrait) : that.portrait != null) return false;
+        if (portraitCheckCode != null ? !portraitCheckCode.equals(that.portraitCheckCode) : that.portraitCheckCode != null)
+            return false;
+        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
+        if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
+        if (height != null ? !height.equals(that.height) : that.height != null) return false;
+        if (weight != null ? !weight.equals(that.weight) : that.weight != null) return false;
+        if (birthday != null ? !birthday.equals(that.birthday) : that.birthday != null) return false;
+        if (city != null ? !city.equals(that.city) : that.city != null) return false;
+        if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
+        return userType == that.userType;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = userId != null ? userId.hashCode() : 0;
+        result = 31 * result + (portrait != null ? portrait.hashCode() : 0);
+        result = 31 * result + (portraitCheckCode != null ? portraitCheckCode.hashCode() : 0);
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (height != null ? height.hashCode() : 0);
+        result = 31 * result + (weight != null ? weight.hashCode() : 0);
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (userType != null ? userType.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public UserInfoModel clone() {
         UserInfoModel newModel = new UserInfoModel();
-        newModel.setNickname(nickname);
+        newModel.setUserId(userId);
         newModel.setPortrait(portrait);
-        newModel.setBirthday(birthday);
-        newModel.setCity(city);
+        newModel.setPortraitCheckCode(portraitCheckCode);
+        newModel.setNickname(nickname);
         newModel.setGender(gender);
         newModel.setHeight(height);
-        newModel.setPortraitCheckCode(portraitCheckCode);
-        newModel.setUserId(userId);
         newModel.setWeight(weight);
+        newModel.setBirthday(birthday);
+        newModel.setCity(city);
         newModel.setPhone(phone);
         newModel.setUserType(userType);
         return newModel;

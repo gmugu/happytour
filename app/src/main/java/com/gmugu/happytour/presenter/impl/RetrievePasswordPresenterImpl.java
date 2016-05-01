@@ -52,7 +52,7 @@ public class RetrievePasswordPresenterImpl implements IRetrievePasswordPresenter
                 } else if (result.getCode() != 0) {
                     view.showErrorMsgDialog(result.getMessage());
                 } else {
-                    view.showMsgDialog("请登录邮箱修改密码");
+                    view.showToast("请登录邮箱修改密码");
                     view.back();
                 }
             }

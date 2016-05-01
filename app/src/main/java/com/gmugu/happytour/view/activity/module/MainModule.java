@@ -10,11 +10,13 @@ import com.gmugu.happytour.presenter.IModifyUserInfoPresenter;
 import com.gmugu.happytour.presenter.IRealTimePresenter;
 import com.gmugu.happytour.presenter.ISettingPresenter;
 import com.gmugu.happytour.presenter.IUserInfoPresenter;
+import com.gmugu.happytour.presenter.IUserTrackPresenter;
 import com.gmugu.happytour.presenter.impl.MainPresenterImpl;
 import com.gmugu.happytour.presenter.impl.ModifyUserInfoPresenterImpl;
 import com.gmugu.happytour.presenter.impl.RealTimePresenterImpl;
 import com.gmugu.happytour.presenter.impl.SettingPresenterImpl;
 import com.gmugu.happytour.presenter.impl.UserInfoPresenterImpl;
+import com.gmugu.happytour.presenter.impl.UserTrackPresenterImpl;
 import com.gmugu.happytour.user.User;
 import com.gmugu.happytour.view.IMainView;
 import com.gmugu.happytour.view.IMapView;
@@ -22,12 +24,14 @@ import com.gmugu.happytour.view.IModifyUserInfoView;
 import com.gmugu.happytour.view.IRealTimeView;
 import com.gmugu.happytour.view.ISettingView;
 import com.gmugu.happytour.view.IUserInfoView;
+import com.gmugu.happytour.view.IUserTrackView;
 import com.gmugu.happytour.view.activity.MainActivity;
 import com.gmugu.happytour.view.activity.Scope.ActivityScope;
 import com.gmugu.happytour.view.fragment.ModifyUserInfoFragment;
 import com.gmugu.happytour.view.fragment.RealTimeFragment;
 import com.gmugu.happytour.view.fragment.SettingFragment;
 import com.gmugu.happytour.view.fragment.UserInfoFragment;
+import com.gmugu.happytour.view.fragment.UserTrackFragment;
 
 import javax.inject.Named;
 
@@ -106,12 +110,32 @@ public class MainModule {
 
     @Provides
     public IRealTimePresenter provodeRealTimePresenter(IRealTimeView view, IApiService apiService, ISpfManager spfManager, Context context) {
-        return new RealTimePresenterImpl(view, apiService);
+        return new RealTimePresenterImpl(view, apiService, context);
     }
 
     @Provides
     public IRealTimeView provideUserInfoView(@Named("RealTimeFragment") Fragment fragment) {
         return (IRealTimeView) fragment;
+    }
+
+    /******************************************************/
+
+    @ActivityScope
+    @Provides
+    @Named("UserTrackFragment")
+    public Fragment provideUserTrackFragment() {
+        UserTrackFragment userTrackFragment = UserTrackFragment.newInstance();
+        return userTrackFragment;
+    }
+
+    @Provides
+    public IUserTrackPresenter provodeUserTrackPresenter(IUserTrackView view, IApiService apiService, ISpfManager spfManager, Context context) {
+        return new UserTrackPresenterImpl(view, apiService, context);
+    }
+
+    @Provides
+    public IUserTrackView provideUserTrackView(@Named("UserTrackFragment") Fragment fragment) {
+        return (IUserTrackView) fragment;
     }
 
 

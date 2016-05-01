@@ -20,9 +20,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiModule {
 
     //    private String baseUrl = "http://192.168.1.190:12321/";
-//    private String baseUrl = "http://192.168.1.190:8080/happytour/";
-    private String baseUrl = "http://192.168.2.1:8080/happytour/";
-    private int timeout = 100;
+//    private String baseUrl = "http://192.168.43.24:8080/happytour/";
+    private String baseUrl = "http://192.168.1.190:8080/happytour/";
+    //    private String baseUrl = "http://192.168.2.1:8080/happytour/";
+//    private String baseUrl = "http://125.217.40.85:8080/happytour/";
+    private int timeout = 5;
 
     @Singleton
     @Provides

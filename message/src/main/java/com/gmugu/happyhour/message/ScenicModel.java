@@ -22,10 +22,13 @@ public class ScenicModel {
     //纬度
     private Double latitude;
 
+    //范围
+    private Integer radius;
+
     public ScenicModel() {
     }
 
-    public ScenicModel(Integer scenicId, String name, Float star, Long openTime, String picture, Integer num, String describe, Double longitude, Double latitude) {
+    public ScenicModel(Integer scenicId, String name, Float star, Long openTime, String picture, Integer num, String describe, Double longitude, Double latitude, Integer radius) {
         this.scenicId = scenicId;
         this.name = name;
         this.star = star;
@@ -35,6 +38,7 @@ public class ScenicModel {
         this.describe = describe;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.radius = radius;
     }
 
     public Integer getScenicId() {
@@ -109,4 +113,11 @@ public class ScenicModel {
         this.latitude = latitude;
     }
 
+    public Integer getRadius() {
+        return radius;
+    }
+
+    public void setRadius(Integer radius) {
+        this.radius = radius;
+    }
 }

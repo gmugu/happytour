@@ -14,7 +14,10 @@ import com.baidu.location.LocationClientOption;
  * Created by mugu on 15-12-24.
  */
 public class BaiduLocation {
+
     private LocationClient mLocationClient;
+
+    private boolean isStart = false;
 
     private BaiduLocation(LocationClient mLocationClient) {
         this.mLocationClient = mLocationClient;
@@ -32,8 +35,12 @@ public class BaiduLocation {
         return mLocationClient.getVersion();
     }
 
+
     public void start() {
-        mLocationClient.start();
+        if (!isStart) {
+            mLocationClient.start();
+            isStart = true;
+        }
     }
 
     public boolean updateLocation(Location location) {
@@ -93,12 +100,13 @@ public class BaiduLocation {
     }
 
     public void stop() {
-        mLocationClient.stop();
+        if (isStart) {
+            mLocationClient.stop();
+            isStart = false;
+        }
     }
 
     public static class Builder {
-
-        private LocationClient mLocationClient;
         private boolean openGps = true;
         private boolean locationNotify = false;
         private boolean ignoreKillProcess = true;
@@ -108,7 +116,7 @@ public class BaiduLocation {
         private boolean isNeedAddress = false;
         private LocationClientOption.LocationMode tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
         private String tempcoor = "bd09ll";
-        private int span = 0;//定位请求的间隔,默认5s
+        private int span = 0;//定位请求的间隔,默认请求一次
         private Context mContext;
 
         public Builder(Context mContext) {
@@ -116,7 +124,7 @@ public class BaiduLocation {
         }
 
         public BaiduLocation build() {
-            mLocationClient = new LocationClient(mContext);
+            LocationClient mLocationClient = new LocationClient(mContext);
             LocationClientOption option = new LocationClientOption();
             option.setLocationMode(tempMode);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
             option.setCoorType(tempcoor);//可选，默认gcj02，设置返回的定位结果坐标系，
@@ -131,6 +139,7 @@ public class BaiduLocation {
             mLocationClient.setLocOption(option);
             return new BaiduLocation(mLocationClient);
         }
+
 
         public Builder setOpenGps(boolean openGps) {
             this.openGps = openGps;

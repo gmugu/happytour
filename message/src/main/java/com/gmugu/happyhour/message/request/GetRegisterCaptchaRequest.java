@@ -4,7 +4,7 @@ package com.gmugu.happyhour.message.request;
  * 注册时获取验证码
  * Created by mugu on 16-4-4 下午2:09.
  */
-public class RegisterCaptchaRequest extends BaseRequest {
+public class GetRegisterCaptchaRequest extends BaseRequest {
 
 
     public enum CaptchaType {
@@ -16,10 +16,10 @@ public class RegisterCaptchaRequest extends BaseRequest {
     private CaptchaType captchaType;
     private String verifiable;
 
-    public RegisterCaptchaRequest() {
+    public GetRegisterCaptchaRequest() {
     }
 
-    public RegisterCaptchaRequest(CaptchaType captchaType, String verifiable) {
+    public GetRegisterCaptchaRequest(CaptchaType captchaType, String verifiable) {
         this.captchaType = captchaType;
         this.verifiable = verifiable;
     }

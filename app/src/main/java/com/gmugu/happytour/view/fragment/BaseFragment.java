@@ -11,7 +11,7 @@ import com.gmugu.happytour.view.IMessageView;
 /**
  * Created by mugu on 16-4-22 上午10:06.
  */
-public class BaseFragment extends Fragment implements IMessageView {
+public abstract class BaseFragment extends Fragment implements IMessageView {
 
     private ProgressDialog progressDialog;
 

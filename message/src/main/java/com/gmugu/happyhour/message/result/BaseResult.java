@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 服务器返回的基类结果
  * Created by mugu on 16-4-3 下午5:37.
  */
-public abstract class BaseResult implements Serializable {
+public class BaseResult implements Serializable {
 
 
     //执行结果,0表示成功，默认为成功

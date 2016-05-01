@@ -48,12 +48,12 @@
         </service>
 
         <!-- 主界面-->
-        <activity android:name="com.gmugu.happytour.view.activity.MainActivity" android:launchMode="singleTask">
+        <activity
+            android:name="com.gmugu.happytour.view.activity.MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="com.gmugu.happytour.intent.action.MAIN_ACTIVITY_ACTION" />
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -64,7 +64,9 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="com.gmugu.happytour.intent.action.LOGIN_ACTIVITY_ACTION" />
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

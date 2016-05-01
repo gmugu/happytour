@@ -10,6 +10,26 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/fragment_read_time_loc_to_scenic_bn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="定位到景区" />
+
+        <Button
+            android:id="@+id/fragment_read_time_loc_to_self_bn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="定位到自己" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/fragment_read_time_guide_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

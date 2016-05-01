@@ -56,7 +56,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:padding="5dp" />
+                    android:padding="5dp"
+                    android:text="user1@qq.com" />
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -101,6 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@id/login_find_passwd_bn"
                         android:background="@null"
+                        android:text="123456"
                         android:inputType="textPassword"
                         android:padding="5dp" />
                 </RelativeLayout>

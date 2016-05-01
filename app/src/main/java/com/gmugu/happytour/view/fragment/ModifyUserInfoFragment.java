@@ -345,9 +345,8 @@ public class ModifyUserInfoFragment extends BaseFragment implements View.OnClick
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 UserInfoModel newModel = userInfoModel.clone();
-                if (whichGenderSelect == 0) {
-                    newModel.setGender("男");
-                } else {
+                newModel.setGender("男");
+                if (whichGenderSelect != 0) {
                     newModel.setGender("女");
                 }
                 modifyUserInfoPresenter.saveOrUpdateUserInfo(newModel, null);

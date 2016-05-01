@@ -1,5 +1,7 @@
 package com.gmugu.happytour.presenter.impl;
 
+import android.view.View;
+
 import com.gmugu.happytour.presenter.IMainPresenter;
 import com.gmugu.happytour.view.IMainView;
 
@@ -20,16 +22,16 @@ public class MainPresenterImpl implements IMainPresenter {
 
     @Override
     public void onTrackRbPressed() {
-
+        view.replaceToTrackFragment();
     }
 
     @Override
     public void onChatRbPressed() {
-
+        view.replaceToChatFragment();
     }
 
     @Override
     public void onSettingRbPressed() {
-
+        view.replaceToSettingFragment();
     }
 }

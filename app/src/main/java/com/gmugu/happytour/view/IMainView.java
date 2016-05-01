@@ -6,4 +6,11 @@ package com.gmugu.happytour.view;
 public interface IMainView {
 
     void replaceToMapFragment();
+
+    void replaceToTrackFragment();
+
+    void replaceToChatFragment();
+
+    void replaceToSettingFragment();
+
 }

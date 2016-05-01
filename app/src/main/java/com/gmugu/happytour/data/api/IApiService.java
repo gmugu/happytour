@@ -33,7 +33,7 @@ public interface IApiService {
      */
     @POST("login.do")
     @Multipart
-    Call<LoginResult> login(@Part(DATA_NAME) com.gmugu.happyhour.message.request.LoginRequest loginRequest);
+    Call<LoginResult> login(@Part(DATA_NAME) LoginRequest loginRequest);
 
     /**
      * 注册
@@ -43,7 +43,7 @@ public interface IApiService {
      */
     @POST("register.do")
     @Multipart
-    Call<RegisterResult> register(@Part(DATA_NAME) com.gmugu.happyhour.message.request.RegisterRequest request);
+    Call<RegisterResult> register(@Part(DATA_NAME) RegisterRequest request);
 
     /**
      * 获取注册时的验证码
@@ -53,7 +53,7 @@ public interface IApiService {
      */
     @POST("getRegisterCaptcha.do")
     @Multipart
-    Call<RegisterCaptchaResult> getRegisterCaptcha(@Part(DATA_NAME) com.gmugu.happyhour.message.request.RegisterCaptchaRequest request);
+    Call<GetRegisterCaptchaResult> getRegisterCaptcha(@Part(DATA_NAME) GetRegisterCaptchaRequest request);
 
     /**
      * 找回密码
@@ -63,7 +63,7 @@ public interface IApiService {
      */
     @POST("retrievePassword.do")
     @Multipart
-    Call<RetrievePasswordResult> retrievePassword(@Part(DATA_NAME) com.gmugu.happyhour.message.request.RetrievePasswordRequest request);
+    Call<RetrievePasswordResult> retrievePassword(@Part(DATA_NAME) RetrievePasswordRequest request);
 
     /**
      * 检查更新
@@ -100,7 +100,7 @@ public interface IApiService {
      */
     @POST("updatePasswd.do")
     @Multipart
-    Call<UpdatePasswdResult> updatePasswd(@Part(DATA_NAME) com.gmugu.happyhour.message.request.UpdatePasswdRequest request);
+    Call<UpdatePasswdResult> updatePasswd(@Part(DATA_NAME) UpdatePasswdRequest request);
 
     /**
      * 添加或修改用户信息
@@ -111,7 +111,7 @@ public interface IApiService {
      */
     @POST("addOrUpdateUserInfo.do")
     @Multipart
-    Call<AddOrUpdateUserInfoResult> addOrUpdateUserInfo(@Part(DATA_NAME) com.gmugu.happyhour.message.request.AddOrUpdateUserInfoRequest request,
+    Call<AddOrUpdateUserInfoResult> addOrUpdateUserInfo(@Part(DATA_NAME) AddOrUpdateUserInfoRequest request,
                                                         @Part MultipartBody.Part portraitFile);
 
 
@@ -132,6 +132,7 @@ public interface IApiService {
      * @return
      */
     @POST("uploadLocation.do")
+    @Multipart
     Call<UploadLocationResult> uploadLocation(@Part(DATA_NAME) UploadLocationRequest request);
 
     /**
@@ -214,6 +215,37 @@ public interface IApiService {
     @POST("guideCmd.do")
     @Multipart
     Call<GuideCmdResult> guideCmd(@Part(DATA_NAME) GuideCmdRequest request);
+
+    /**
+     * 获取旅行团中所有队友当前的位置信息(导游)
+     *
+     * @param request
+     * @return
+     */
+    @POST("getAllTeamLocation.do")
+    @Multipart
+    Call<GetAllTeamLocationResult> getAllTeamLocation(@Part(DATA_NAME) GetAllTeamLocationRequest request);
+
+
+    /**
+     * 获取相关联的景区信息
+     *
+     * @param request
+     * @return
+     */
+    @POST("getScenicInfoOfIn.do")
+    @Multipart
+    Call<GetScenicInfoOfInResult> getScenicInfoOfIn(@Part(DATA_NAME) GetScenicInfoOfInRequest request);
+
+    /**
+     * 获取队员轨迹信息(导游获取全部,游客获取自己)
+     *
+     * @param request
+     * @return
+     */
+    @POST("getTeammateTrack.do")
+    @Multipart
+    Call<GetTeammateTrackResult> getTeammateTrack(@Part(DATA_NAME) GetTeammateTrackRequest request);
 
 //    ------test------
 
