@@ -247,7 +247,45 @@ public interface IApiService {
     @Multipart
     Call<GetTeammateTrackResult> getTeammateTrack(@Part(DATA_NAME) GetTeammateTrackRequest request);
 
-//    ------test------
+    /**
+     * 获取景区信息
+     *
+     * @param request
+     * @return
+     */
+    @POST("getScenicInfo.do")
+    @Multipart
+    Call<GetScenicInfoResult> getScenicInfo(@Part(DATA_NAME) GetScenicInfoRequest request);
+
+    /**
+     * 提交景区评论
+     *
+     * @param request
+     * @return
+     */
+    @POST("commitScenicComment.do")
+    @Multipart
+    Call<CommitScenicCommentResult> commitScenicComment(@Part(DATA_NAME) CommitScenicCommentRequest request);
+
+    /**
+     * 获取导游公告
+     *
+     * @param request
+     * @return
+     */
+    @POST("getNotices.do")
+    @Multipart
+    Call<GetNoticesResult> getNotices(@Part(DATA_NAME) GetNoticesRequest request);
+
+    /**
+     * 发布公告(导游)
+     *
+     * @param request
+     * @return
+     */
+    @POST("publicNotice.do")
+    @Multipart
+    Call<PublicNoticeResult> publicNotice(@Part(DATA_NAME) PublicNoticeRequest request);
 
 
 }

@@ -8,16 +8,20 @@ import android.widget.RadioGroup;
 import com.gmugu.happytour.R;
 import com.gmugu.happytour.application.AppComponent;
 import com.gmugu.happytour.comment.assist.Log;
+import com.gmugu.happytour.presenter.IChatPresenter;
 import com.gmugu.happytour.presenter.IMainPresenter;
 import com.gmugu.happytour.presenter.IModifyUserInfoPresenter;
 import com.gmugu.happytour.presenter.IRealTimePresenter;
+import com.gmugu.happytour.presenter.IScenicInfoPresenter;
 import com.gmugu.happytour.presenter.ISettingPresenter;
 import com.gmugu.happytour.presenter.IUserTrackPresenter;
 import com.gmugu.happytour.view.IMainView;
 import com.gmugu.happytour.view.activity.component.DaggerMainComponent;
 import com.gmugu.happytour.view.activity.module.MainModule;
+import com.gmugu.happytour.view.fragment.ChatFragment;
 import com.gmugu.happytour.view.fragment.ModifyUserInfoFragment;
 import com.gmugu.happytour.view.fragment.RealTimeFragment;
+import com.gmugu.happytour.view.fragment.ScenicInfoFragment;
 import com.gmugu.happytour.view.fragment.SettingFragment;
 import com.gmugu.happytour.view.fragment.UserTrackFragment;
 
@@ -30,7 +34,8 @@ public class MainActivity extends BasicActivity implements
         SettingFragment.OnFragmentInteractionListener,
         ModifyUserInfoFragment.OnModifyUserInfoFragmentInteractionListener,
         RealTimeFragment.OnReadTimeFragmentInteractionListener,
-        UserTrackFragment.OnUserTrackFragmentInteractionListener {
+        UserTrackFragment.OnUserTrackFragmentInteractionListener,
+        ScenicInfoFragment.OnScenicInfoFragmentInteractionListener, ChatFragment.OnChatFragmentInteractionListener {
 
     @Inject
     protected IMainPresenter mainPresenter;
@@ -72,6 +77,25 @@ public class MainActivity extends BasicActivity implements
     protected Fragment userTrackFragment;
     @Inject
     protected IUserTrackPresenter userTrackPresenter;
+
+    /********************
+     * ScenicInfoFragment
+     ********************/
+    @Inject
+    @Named("ScenicInfoFragment")
+    protected Fragment scenicInfoFragment;
+    @Inject
+    protected IScenicInfoPresenter scenicInfoPresenter;
+
+    /********************
+     * ChatFragment
+     ********************/
+    @Inject
+    @Named("ChatFragment")
+    protected Fragment chatFragment;
+    @Inject
+    protected IChatPresenter chatPresenter;
+
 
     private RadioGroup navigationRg;
 
@@ -149,8 +173,23 @@ public class MainActivity extends BasicActivity implements
     }
 
     @Override
+    public ScenicInfoFragment getScenicInfoFragment() {
+        return (ScenicInfoFragment) scenicInfoFragment;
+    }
+
+    @Override
     public IUserTrackPresenter getUserTrackPresenter() {
         return userTrackPresenter;
+    }
+
+    @Override
+    public IScenicInfoPresenter getScenicInfoPresenter() {
+        return scenicInfoPresenter;
+    }
+
+    @Override
+    public IChatPresenter getChatPresenter() {
+        return chatPresenter;
     }
 
     @Override
@@ -165,12 +204,11 @@ public class MainActivity extends BasicActivity implements
 
     @Override
     public void replaceToChatFragment() {
-
+        replaceFragment(chatFragment);
     }
 
     @Override
     public void replaceToSettingFragment() {
         replaceFragment(settingFragment);
     }
-
 }

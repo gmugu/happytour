@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,6 +17,7 @@
             android:text="开始时间:" />
 
         <TextView
+            android:id="@+id/track_list_item_start_time_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
@@ -32,6 +34,7 @@
             android:text="结束时间:" />
 
         <TextView
+            android:id="@+id/track_list_item_end_time_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
@@ -48,6 +51,7 @@
             android:text="总路程(公里):" />
 
         <TextView
+            android:id="@+id/track_list_item_distance_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

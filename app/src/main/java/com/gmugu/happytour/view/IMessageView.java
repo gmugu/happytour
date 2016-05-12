@@ -13,5 +13,5 @@ public interface IMessageView {
 
     void cancelWaitingTip();
 
-    void onWaitingTipCance();
+    void onWaitingTipCancel();
 }

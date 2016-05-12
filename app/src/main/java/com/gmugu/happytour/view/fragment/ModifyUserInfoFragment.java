@@ -64,7 +64,6 @@ public class ModifyUserInfoFragment extends BaseFragment implements View.OnClick
     private IModifyUserInfoPresenter modifyUserInfoPresenter;
 
     public ModifyUserInfoFragment() {
-        // Required empty public constructor
     }
 
     public static ModifyUserInfoFragment newInstance(UserInfoModel userInfoModel) {

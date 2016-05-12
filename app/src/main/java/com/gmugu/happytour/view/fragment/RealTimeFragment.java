@@ -20,10 +20,14 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.gmugu.happyhour.message.ScenicCommentsItemModel;
+import com.gmugu.happyhour.message.ScenicModel;
 import com.gmugu.happyhour.message.TravelTeamModel;
 import com.gmugu.happyhour.message.UserLocationModel;
 import com.gmugu.happytour.R;
@@ -41,6 +45,21 @@ import java.util.Map;
 
 public class RealTimeFragment extends BaseFragment implements IRealTimeView, View.OnClickListener {
 
+
+    private final BaiduMap.OnMarkerClickListener onMarkerClickListener = new BaiduMap.OnMarkerClickListener() {
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            try {
+                LatLng position = marker.getPosition();
+                if (position.latitude == scenicModel.getLatitude() && position.longitude == scenicModel.getLongitude()) {
+                    realTimePresenter.onScenicPointClick(scenicModel);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+    };
 
     private OnReadTimeFragmentInteractionListener mListener;
     private View mView;
@@ -63,6 +82,8 @@ public class RealTimeFragment extends BaseFragment implements IRealTimeView, Vie
     private ListView teamList;
 
     private Map<String, BitmapDescriptor> makersMap = new HashMap<>();
+    private ScenicModel scenicModel;
+
 
     public RealTimeFragment() {
 
@@ -354,9 +375,33 @@ public class RealTimeFragment extends BaseFragment implements IRealTimeView, Vie
         addOneManToMap(userId, User.getInstance().getUserInfoModel().getNickname(), longitude, latitude);
     }
 
+    @Override
+    public void addScenicPoint(ScenicModel scenicModel) {
+        this.scenicModel = scenicModel;
+        String name = scenicModel.getScenicId() + "scenic";
+        if (!mapViewFragment.containsOverlay(name)) {
+            BitmapDescriptor scenicBitmap = BitmapDescriptorFactory.fromResource(R.drawable.scenic_icon);
+            makersMap.put(name, scenicBitmap);
+            MarkerOptions overlay = new MarkerOptions()
+                    .position(new LatLng(scenicModel.getLatitude(), scenicModel.getLongitude()))
+                    .icon(scenicBitmap);
+            mapViewFragment.addOverlay(name, overlay);
+            mapViewFragment.setOnMarkerClickListener(onMarkerClickListener);
+        }
+    }
+
+    @Override
+    public void showScenicInfoView(ScenicModel scenicModel) {
+        ScenicInfoFragment fragment = mListener.getScenicInfoFragment();
+        getFragmentManager().beginTransaction().replace(R.id.root_view, fragment).addToBackStack(null).commit();
+        fragment.setScenicModel(scenicModel);
+    }
+
 
     public interface OnReadTimeFragmentInteractionListener {
         IRealTimePresenter getRealTimePresenter();
+
+        ScenicInfoFragment getScenicInfoFragment();
     }
 
 }

@@ -13,12 +13,18 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.gmugu.happyhour.message.TrackModel;
+import com.gmugu.happyhour.message.TrackPointModel;
+import com.gmugu.happyhour.message.TrackSnapshotsModel;
 import com.gmugu.happytour.R;
 import com.gmugu.happytour.presenter.IUserTrackPresenter;
 import com.gmugu.happytour.view.IUserTrackView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -54,7 +60,7 @@ public class UserTrackFragment extends BaseFragment implements IUserTrackView, A
         sideList = (ListView) findViewById(R.id.fragment_user_track_lv);
         sideList.setOnItemClickListener(this);
         mapViewFragment = MapViewFragment.newInstence();
-        getFragmentManager().beginTransaction().replace(R.id.fragment_user_track_fl, mapViewFragment);
+        getFragmentManager().beginTransaction().replace(R.id.fragment_user_track_fl, mapViewFragment).commit();
         presenter.afterCreatView();
         return mView;
     }
@@ -94,18 +100,43 @@ public class UserTrackFragment extends BaseFragment implements IUserTrackView, A
     }
 
     @Override
-    public void askWhickTrack(List<TrackModel> trackModels) {
+    public void askWhickTrack(final List<TrackModel> trackModels) {
 
+        String[] from = new String[]{"startTime", "endTime", "distance"};
+        int[] to = new int[]{R.id.track_list_item_start_time_tv, R.id.track_list_item_end_time_tv, R.id.track_list_item_distance_tv};
         List<Map<String, Object>> data = new ArrayList<>();
-        String[] from = new String[]{};
-        int[] to = new int[]{};
-        SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(), data,R.layout.track_list_item, from,to);
+        for (TrackModel model : trackModels) {
+            TrackSnapshotsModel model1 = model.getTrackSnapshotsModel();
+            HashMap<String, Object> map = new HashMap<>();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINA);
+            map.put(from[0], format.format(new Date(model1.getStartTime())));
+            map.put(from[1], format.format(new Date(model1.getStopTime())));
+            map.put(from[2], model1.getDistance());
+            data.add(map);
+        }
+        SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(), data, R.layout.track_list_item, from, to);
         new AlertDialog.Builder(getActivity()).setTitle("选择轨迹").setAdapter(simpleAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                presenter.onTrackItemClick(trackModels.get(which));
             }
         }).setNegativeButton("取消", null).show();
+    }
+
+    @Override
+    public void showTrackOnMap(TrackModel trackModel) {
+        try {
+            mapViewFragment.getOverlays().clear();
+            mapViewFragment.cleanMap();
+            List<TrackPointModel> trackList = trackModel.getTrackList();
+            TrackPointModel start = trackList.get(0);
+            TrackPointModel end = trackList.get(trackList.size() - 1);
+            mapViewFragment.addStartPoint("statr", start.getLongitude(), start.getLatitude());
+            mapViewFragment.addEndPoint("end", end.getLongitude(), end.getLatitude());
+            mapViewFragment.addTrack("track", trackModel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

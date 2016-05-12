@@ -4,6 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/activity_main_bar"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/holo_blue_dark"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="游踪管理系统"
+        android:textSize="19sp" />
 
     <RadioGroup
         android:id="@+id/activity_main_navigation_rg"
@@ -52,9 +62,9 @@
     <FrameLayout
         android:id="@+id/activity_main_context_fl"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_above="@id/activity_main_navigation_rg"
-        android:layout_alignParentTop="true">
+        android:layout_below="@id/activity_main_bar">
 
     </FrameLayout>
 </RelativeLayout>

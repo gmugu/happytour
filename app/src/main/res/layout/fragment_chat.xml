@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.gmugu.happytour.view.fragment.ChatFragment">
+
+    <Button
+        android:id="@+id/fragment_chat_public_bn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/bn_selector_red"
+        android:text="发布公告"
+        android:textColor="@android:color/white" />
+
+    <ListView
+        android:id="@+id/fragment_chat_notice_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/fragment_chat_public_bn"
+        android:layout_alignParentTop="true"
+        android:padding="10dp" />
+
+</RelativeLayout>

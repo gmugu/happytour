@@ -20,6 +20,8 @@ public interface IMapView {
 
     void addOverlay(String name, OverlayOptions overlay);
 
+    boolean containsOverlay(String name);
+
     void removeOverlayAndUpdate(String name);
 
     void removeOverlay(String name);

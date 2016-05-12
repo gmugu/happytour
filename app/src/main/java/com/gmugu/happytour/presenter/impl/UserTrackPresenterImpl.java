@@ -50,6 +50,12 @@ public class UserTrackPresenterImpl implements IUserTrackPresenter {
         }
     }
 
+    @Override
+    public void onTrackItemClick(TrackModel trackModel) {
+        view.showTrackOnMap(trackModel);
+    }
+
+
     private void getTeammateTrackSnapshots() {
         GetTeammateTrackRequest request = new GetTeammateTrackRequest();
 

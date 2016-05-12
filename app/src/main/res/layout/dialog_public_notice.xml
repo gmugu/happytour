@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:background="#ffffff"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="8dp"
+            android:gravity="center"
+            android:text="标题："
+            android:textSize="8pt" />
+
+        <EditText
+            android:id="@+id/dialog_public_notice_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:background="@drawable/rounded_edittext_1"
+            android:padding="5dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:gravity="center"
+        android:text="正文："
+        android:textSize="8pt" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="320dp">
+
+        <Button
+            android:id="@+id/dialog_public_notice_sure_bn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bn_selector_red"
+            android:text="发布"
+            android:textColor="#ffffff" />
+
+        <EditText
+            android:id="@+id/dialog_public_notice_context"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/dialog_public_notice_sure_bn"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_edittext_1"
+            android:gravity="start"
+            android:padding="10dp" />
+    </RelativeLayout>
+
+</LinearLayout>

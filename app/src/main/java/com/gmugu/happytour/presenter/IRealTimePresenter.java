@@ -1,5 +1,7 @@
 package com.gmugu.happytour.presenter;
 
+import com.gmugu.happyhour.message.ScenicModel;
+
 /**
  * Created by mugu on 16-4-19 下午5:58.
  */
@@ -25,4 +27,6 @@ public interface IRealTimePresenter {
     void onLocToScenicBnPressed();
 
     void onLocToSelfBnPressed();
+
+    void onScenicPointClick(ScenicModel scenicModel);
 }

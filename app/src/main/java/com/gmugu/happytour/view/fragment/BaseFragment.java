@@ -33,7 +33,7 @@ public abstract class BaseFragment extends Fragment implements IMessageView {
         progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                onWaitingTipCance();
+                onWaitingTipCancel();
             }
         });
         progressDialog.show();
@@ -45,7 +45,7 @@ public abstract class BaseFragment extends Fragment implements IMessageView {
     }
 
     @Override
-    public void onWaitingTipCance() {
+    public void onWaitingTipCancel() {
 
     }
 

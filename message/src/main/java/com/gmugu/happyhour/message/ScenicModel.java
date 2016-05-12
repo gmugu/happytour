@@ -120,4 +120,20 @@ public class ScenicModel {
     public void setRadius(Integer radius) {
         this.radius = radius;
     }
+
+    @Override
+    public String toString() {
+        return "ScenicModel{" +
+                "scenicId=" + scenicId +
+                ", name='" + name + '\'' +
+                ", star=" + star +
+                ", num=" + num +
+                ", openTime=" + openTime +
+                ", picture='" + picture + '\'' +
+                ", describe='" + describe + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", radius=" + radius +
+                '}';
+    }
 }

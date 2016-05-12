@@ -1,5 +1,6 @@
 package com.gmugu.happytour.view;
 
+import com.gmugu.happyhour.message.ScenicModel;
 import com.gmugu.happyhour.message.TravelTeamModel;
 import com.gmugu.happyhour.message.UserLocationModel;
 
@@ -36,4 +37,8 @@ public interface IRealTimeView extends IMessageView {
     void cleanMap();
 
     void addSelfPoint(Integer userId, double longitude, double latitude);
+
+    void addScenicPoint(ScenicModel scenicModel);
+
+    void showScenicInfoView(ScenicModel scenicModel);
 }

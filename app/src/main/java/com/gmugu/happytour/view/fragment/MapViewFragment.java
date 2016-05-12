@@ -174,13 +174,18 @@ public class MapViewFragment extends BaseFragment implements IMapView {
     }
 
     @Override
+    public boolean containsOverlay(String name) {
+        return overlayMap.containsKey(name);
+    }
+
+    @Override
     public void removeOverlayAndUpdate(String name) {
         overlayMap.remove(name);
         updateMap();
     }
 
     @Override
-    public void removeOverlay(String name){
+    public void removeOverlay(String name) {
         overlayMap.remove(name);
     }
 

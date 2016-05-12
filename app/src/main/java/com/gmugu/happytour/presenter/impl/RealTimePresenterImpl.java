@@ -12,6 +12,7 @@ import com.gmugu.happyhour.message.request.CreateTeamRequest;
 import com.gmugu.happyhour.message.request.DeleteTeamRequest;
 import com.gmugu.happyhour.message.request.GetAllTeamLocationRequest;
 import com.gmugu.happyhour.message.request.GetScenicInfoOfInRequest;
+import com.gmugu.happyhour.message.request.GetScenicInfoRequest;
 import com.gmugu.happyhour.message.request.GetScenicListRequest;
 import com.gmugu.happyhour.message.request.GetTeamListRequest;
 import com.gmugu.happyhour.message.request.GuideCmdRequest;
@@ -22,6 +23,7 @@ import com.gmugu.happyhour.message.result.CreateTeamResult;
 import com.gmugu.happyhour.message.result.DeleteTeamResult;
 import com.gmugu.happyhour.message.result.GetAllTeamLocationResult;
 import com.gmugu.happyhour.message.result.GetScenicInfoOfInResult;
+import com.gmugu.happyhour.message.result.GetScenicInfoResult;
 import com.gmugu.happyhour.message.result.GetScenicListResult;
 import com.gmugu.happyhour.message.result.GetTeamListResult;
 import com.gmugu.happyhour.message.result.GuideCmdResult;
@@ -37,6 +39,7 @@ import com.gmugu.happytour.presenter.IRealTimePresenter;
 import com.gmugu.happytour.user.User;
 import com.gmugu.happytour.view.IRealTimeView;
 
+import java.io.IOException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -45,6 +48,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -115,7 +119,7 @@ public class RealTimePresenterImpl implements IRealTimePresenter {
             StringBuilder sb = new StringBuilder();
             for (Integer key : usersLoactionInfo.keySet()) {
                 UserLocationModel info = usersLoactionInfo.get(key);
-                double reckon = 1000*Distancer.reckon(info.getCurLog(), info.getCurLat(), scenicModel.getLongitude(), scenicModel.getLatitude());
+                double reckon = 1000 * Distancer.reckon(info.getCurLog(), info.getCurLat(), scenicModel.getLongitude(), scenicModel.getLatitude());
                 if (reckon > scenicModel.getRadius()) {
                     sb.append(info.getNikename() + "、");
                 }
@@ -479,6 +483,7 @@ public class RealTimePresenterImpl implements IRealTimePresenter {
     @Override
     public void onLocToScenicBnPressed() {
         try {
+            view.addScenicPoint(scenicModel);
             view.animateToLocation(scenicModel.getRadius(), scenicModel.getLongitude(), scenicModel.getLatitude());
         } catch (Exception e) {
             view.showToase("景区信息不存在");
@@ -494,6 +499,15 @@ public class RealTimePresenterImpl implements IRealTimePresenter {
             view.animateToLocation(curRadius, curLog, curLat);
         } catch (Exception e) {
             view.showToase(e.getMessage());
+        }
+    }
+
+    @Override
+    public void onScenicPointClick(ScenicModel scenicModel) {
+        try {
+            view.showScenicInfoView(scenicModel);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

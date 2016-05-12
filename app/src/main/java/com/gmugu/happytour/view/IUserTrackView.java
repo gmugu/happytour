@@ -12,4 +12,7 @@ public interface IUserTrackView {
     void updateTeammateList(String[] data);
 
     void askWhickTrack(List<TrackModel> trackModels);
+
+    void showTrackOnMap(TrackModel trackModel);
+
 }
