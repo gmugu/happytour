@@ -40,6 +40,8 @@ public interface ISpfManager {
 
     UserInfoModel getUserInfo(String userId) throws SpfManagetException;
 
+    String getHeadimgPath(String userId);
+
     String saveOrUpdateHeadimg(String userId, byte[] img) throws SpfManagetException;
 
     String saveOrUpdateHeadimg(String userId, String imgPath) throws SpfManagetException;

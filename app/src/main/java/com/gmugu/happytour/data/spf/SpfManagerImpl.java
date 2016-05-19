@@ -191,6 +191,11 @@ public class SpfManagerImpl implements ISpfManager {
     }
 
     @Override
+    public String getHeadimgPath(String userId) {
+        return new File(getUserDir(userId), "userHeadimg.png").getAbsolutePath();
+    }
+
+    @Override
     public String saveOrUpdateHeadimg(String userId, byte[] img) throws SpfManagetException {
         File userDir = getUserDir(userId);
         if (userDir == null) {

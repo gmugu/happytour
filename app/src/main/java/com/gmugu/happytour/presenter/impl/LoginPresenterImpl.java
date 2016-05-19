@@ -108,6 +108,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         //下载头像文件
                         downloadHeadimg(userInfoModel);
                     }
+                    userInfoModel.setPortrait(spfManager.getHeadimgPath(userId+""));
                     User user = User.getInstance();
                     user.setUserId(userId);
                     user.setUserInfoModel(userInfoModel);
