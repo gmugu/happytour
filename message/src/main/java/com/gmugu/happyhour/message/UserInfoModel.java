@@ -10,7 +10,8 @@ public class UserInfoModel extends BaseModel implements Cloneable {
 
     public enum UserType {
         GUIDE,
-        PASSENGER
+        PASSENGER,
+        ADMIN
     }
 
     //用户ID
